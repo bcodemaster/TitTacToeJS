@@ -1,0 +1,318 @@
+<html>
+  <head>
+    <meta>
+      <title>Tic Tac Toe JS</title>
+        <style>
+
+        a {
+          text-decoration:none
+        }
+        a:hover {
+          color:#FF8080
+        }
+
+        #mainContent {
+          background-color: #487070;
+          border-radius: 4px;
+          padding: 5px;
+          width: 800px;
+          height: 420px;
+          overflow: hidden;
+        }
+        .background {
+          position: absolute;
+          margin-left: 0px;
+          margin-top: 0px;
+        }
+
+        .buttons {
+          position: absolute;
+          margin: 0 0 0 0;
+          border: 2px solid #e8f4d8;
+          border-style: outset;
+          color: #fff;
+          background-color: #98b8b0;
+          cursor: pointer;
+          font-family: "Arial Black", Gadget, sans-serif;
+        }
+
+        .xo {
+          width: 275px;
+          height: 100px;
+          font-size: 45px;
+          line-height: 35px;
+          border-radius: 4px;
+        }
+
+        #newgame {
+          width: 800px;
+          height: 40px;
+          margin: 380px 0 0 0;
+          font-size: 25px;
+          line-height: 15px;
+          border-radius: 4px;
+          border-style: inset;
+
+        }
+
+        #turn {
+          position: absolute;
+          width: 800px;
+          margin: 15px 0 0 0;
+          text-align: center;
+          font-family: "Arial Black", Gadget, sans-serif;
+          color:#fff;
+          font-size: 25px;
+          line-height: 15px;
+        }
+
+        </style>
+  </head>
+<body bgcolor="#ffffff" link="#487070" vlink="#487070">
+  <table height="100%" border="0" cellspacing="0" cellpadding="20">
+    <tbody>
+      <tr>
+      <td width="184" valign="TOP" bgcolor="#e8f4d8">
+      <center>
+        <img src="icon.png" width="83" height="83">
+      </center>
+          <br>
+          <br>
+      <center>
+          <font color="#000000" face="Arial, Helvetica" size="+1">
+            <center>
+            <b>
+            <font color="#98b8b0">Click to</font>
+            <br>
+            <font color= "#487070">Play</font>
+            <br>
+            </b>
+            </center>
+            <br>
+            <br>
+          </font>
+          <font color="#000000" face="Arial, Helvetica" size="+0">
+          <a href="index.html">English</a>
+          <br>
+          <a href="indice.html">Spanish</a>
+          </font>
+          <br>
+          <br>
+          <font color="#000000" face="Arial, Helvetica" size="+0">
+            <br>
+            <br>
+            <a href="https://bcodemaster.github.io/school.html">Back to<br>My Projects</a>
+            <br>
+            <br>
+            <a href="https://bcodemaster.github.io/SpaceRocket/index.html">Space Rocket</a>
+          </font>
+        </center>
+    </td>
+    <td valign="TOP">
+      <font face="Arial, Helvetica">
+        <font size="-10">
+          <br>
+        </font>
+        <font size="7">
+            <b><i>Tic Tac Toe JS</i></b>
+        </font>
+        <br>
+        <h2>Introduction</h2>
+        <p>Ever wanted to play Tic Tac Toe on your computer?<br>Look no further more, introducing to you <i>Tic Tac Toe JS</i> the online webgame made through JavaScript for only your entertainment! </p>
+        <h2>Controls</h2>
+        <p>Just use your mouse to guide the pointer inside the box and "click" on the button to make your move.</p>
+        <img src="pointer.png" width="32" height="32">
+        <img src="clicker.png" width="34" height="34">
+        <br>
+        <br>
+        <br>
+        <!--images provided by https://www.flaticon.com/ -->
+           <div id="mainContent">
+
+             <!-- Text display for current player, X or O -->
+             <p id="turn">Turn: X</p>
+
+             <!-- HTML buttons for each X or O button. Note there is no onclick event handler; it's added in JavaScript code later  -->
+             <!-- row 1 -->
+             <input id="1" type="button" class="buttons xo" style="margin: 50px 0 0 0;" value=" ">
+             <input id="2" type="button" class="buttons xo" style="margin: 50px 0 0 275px;" value=" ">
+             <input id="3" type="button" class="buttons xo" style="margin: 50px 0 0 525px;" value=" ">
+
+             <!-- row 2 -->
+             <input id="4" type="button" class="buttons xo" style="margin: 150px 0 0 0;" value=" ">
+             <input id="5" type="button" class="buttons xo" style="margin: 150px 0 0 275px;" value=" ">
+             <input id="6" type="button" class="buttons xo" style="margin: 150px 0 0 525px;" value=" ">
+
+             <!-- row 3 -->
+             <input id="7" type="button" class="buttons xo" style="margin: 250px 0 0 0;" value=" ">
+             <input id="8" type="button" class="buttons xo" style="margin: 250px 0 0 275px;" value=" ">
+             <input id="9" type="button" class="buttons xo" style="margin: 250px 0 0 525px;" value=" ">
+
+             <!-- Button for starting a new game -->
+             <input id="newgame" type="button" class="buttons" value="New Game">
+
+           </div>
+
+           <!-- JavaScript code displays or hides the selected item of clothing -->
+           <script>
+             "use strict";                     // Strict mode catches more errors, and displays in the browser console
+
+             // Set up game variables
+             var x = [
+               [0, 0, 0],
+               [0, 0, 0],
+               [0, 0, 0]
+             ]
+             var turn = false;
+             var clickCounter = 0;
+             var gameOver = false;
+
+             // Add some event handlers
+             //  Look for all the buttons with the class name "xo", and attach a click handler to them
+             var buttons = document.getElementsByClassName("xo");
+             for (var i = 0; i < buttons.length; i++) {
+               buttons[i].addEventListener("click", clickButton, false);
+             }
+             // Look for the "newgame" button and add a click handler to it
+             //  The function for the handled clicks is an inlined (doesn't call a separately named function, as shown above for 'clickButton')
+             //  The function called when clicking on "new game" empties the'x'  playboard array, and resets the game variables
+             document.getElementById("newgame").addEventListener("click", function() {
+               var buttons = document.getElementsByClassName("xo");
+               for (var i = 0; i < buttons.length; i++) {
+                 buttons[i].value = " ";
+               }
+               document.getElementById("turn").textContent = "Turn: X";
+               x.fill(0);
+               turn = false;
+               clickCounter = 0;
+               gameOver = false;
+             }, false);
+
+             // This function called when a button is clicked
+             function clickButton(ev) {
+               var button = ev.target;
+               if (gameOver) { return; }                   // Prevent further moves if the game is over
+               if (button.value == " ") {
+                 if (!turn) {
+                   button.value = "X";
+                   document.getElementById("turn").textContent = "Turn: O";
+                 } else {
+                   button.value = "O"
+                   document.getElementById("turn").textContent = "Turn: X";
+                 }
+                 turn = !turn;
+                 clickCounter++;
+                 fillArray(button.id);
+               }
+             }
+
+             // Keep track of X and O in each array element
+             function fillArray(buttonId) {
+               if (!turn)
+                 x[buttonId -1] = 1;
+               else {
+                 x[buttonId -1] = 4;
+               }
+               var score = updateScore();
+               if (score != "") {
+                 document.getElementById("turn").textContent = score;
+                 gameOver = true;
+               } else if (clickCounter >= 9) {
+                 document.getElementById("turn").textContent = "Cat's Tail";
+                 gameOver = true;
+               }
+             }
+
+             // Keep track of the score, and see who's won
+             function updateScore() {
+               var t = "";
+
+               // row wins
+               if (x[0] + x[1] + x[2] == 3)
+                 t = "O wins!";
+               if (x[0] + x[1] + x[2] == 12)
+                 t = "X wins!"
+               if (x[3] + x[4] + x[5] == 3)
+                 t = "O wins!"
+               if (x[3] + x[4] + x[5] == 12)
+                 t = "X wins!"
+               if (x[6] + x[7] + x[8] == 3)
+                 t = "O wins!"
+               if (x[6] + x[7] + x[8] == 12)
+                 t = "X wins!"
+
+               // column wins
+               if (x[0] + x[3] + x[6] == 3)
+                 t = "O wins!";
+               if (x[0] + x[3] + x[6] == 12)
+                 t = "X wins!"
+               if (x[1] + x[4] + x[7] == 3)
+                 t = "O wins!"
+               if (x[1] + x[4] + x[7] == 12)
+                 t = "X wins!"
+               if (x[2] + x[5] + x[8] == 3)
+                 t = "O wins!"
+               if (x[2] + x[5] + x[8] == 12)
+                 t = "X wins!"
+
+               // diagonal wins
+               if (x[0] + x[4] + x[8] == 3)
+                 t = "O wins!";
+               if (x[0] + x[4] + x[8] == 12)
+                 t = "X wins!"
+               if (x[2] + x[4] + x[6] == 3)
+                 t = "O wins!"
+               if (x[2] + x[4] + x[6] == 12)
+                 t = "X wins!"
+
+               return t;
+
+             }
+
+             function newGame() {
+               var buttons = document.getElementsByClassName("xo");
+               for (var i = 0; i < buttons.length; i++) {
+                 buttons[i].value = "";
+               }
+               document.getElementById("turn").textContent = "Turn: X";
+               x.fill(0);
+               turn = false;
+               clickCounter = 0;
+               gameOver = false;
+             }
+
+           </script>
+
+         <p>
+           <table width="640" border="0">
+             <tbody>
+             </tbody>
+           </table>
+         </p>
+         <p></p>
+         <p></p>
+         <p></p>
+         <p></p>
+         <hr>
+         <h2>Check out my other projects too!</h2>
+      <p><a href="https://bcodemaster.github.io/portfolio.html" target="_blank"><img width="240" height="150" src="WE.png" border="0"></a> &nbsp; <a href="https://bcodemaster.github.io/SpaceRocket/index.html"><img width="240" height="150" src="spacerocket.png" border="0"></a></p></font>
+      <p><font face="Arial, Helvetica">Click image for the Link... </p>
+    <br>
+    <br>
+      </font>
+      <br>
+      </p><hr>
+  <center>
+    <font color="#000000" face="Arial, Helvetica" size="+0">
+      <br>
+        <p> <small>Tic Tac Toe JS © </small> </p>
+        <p> <small> Made by Byron Roa </small></p>
+      <br>
+    </font>
+  </center>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
